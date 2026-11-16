@@ -12,7 +12,7 @@ jobs:
       # Actions is disabled on the fork itself, so this workflow lives in
       # giftcam-ci and pulls the fork (public) which already contains the patch.
       - name: Clone Telegram-iOS fork
-        run: git clone --depth 1 https://github.com/imfated/Telegram-iOS.git .
+        run: git clone --depth 1 https://github.com/imfated/DoomGram.git .
 
       - name: Init submodules
         run: |
