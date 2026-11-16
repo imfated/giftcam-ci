@@ -23,6 +23,19 @@ jobs:
       - name: Apply GiftCam patches
         run: git apply patches/*.patch
 
+      - name: Apply DoomGram name and icon
+        run: |
+          set -e
+          perl -pi -e 's/\$\{APP_NAME\}/DoomGram/' Telegram/Telegram-iOS/Info.plist
+          ICON=giftcam/doomgram-icon.jpg
+          if [ -f "$ICON" ]; then
+            for f in Telegram/Telegram-iOS/DefaultAppIcon.xcassets/AppIconLLC.appiconset/*.png; do
+              H=$(sips -g pixelHeight "$f" | awk '/pixelHeight/ {print $2}')
+              W=$(sips -g pixelWidth "$f" | awk '/pixelWidth/ {print $2}')
+              sips -s format png -z "$H" "$W" "$ICON" --out "$f" >/dev/null
+            done
+          fi
+
       - name: Select latest Xcode
         run: |
           XCODE_PATH=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
