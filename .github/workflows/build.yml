@@ -33,6 +33,8 @@ jobs:
           sudo xcode-select -s "$XCODE_PATH/Contents/Developer"
           xcodebuild -version
           xcodebuild -downloadComponent MetalToolchain
+          export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+          brew list gperf >/dev/null 2>&1 || brew install gperf
 
       - name: Free disk space
         run: |
@@ -81,6 +83,8 @@ jobs:
 
       - name: Build IPA
         run: |
+          unset SDKROOT
+          unset IPHONEOS_DEPLOYMENT_TARGET
           python3 build-system/Make/Make.py \
             --cacheDir="$RUNNER_TEMP/tg-bazel-cache" \
             --overrideXcodeVersion \
